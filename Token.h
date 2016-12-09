@@ -37,7 +37,7 @@ public:
     std::string type()  {  return representation_[type_]; };
     std::string value() { return value_;}
 
-
+    void set_value(std::string value)  { value_=value; }
 
 };
 
