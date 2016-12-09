@@ -16,7 +16,9 @@ public:
     bool ReadChar(char ch);
 
     void test(std::string text);
-
+    int  GetTokensLength()   { return tokens_.size(); }
+    Token GetLastToken()   { return tokens_.back(); }
+    const std::vector<Token>& GetTokens()  { return tokens_;}
 private:
 
     std::vector<Token> tokens_;

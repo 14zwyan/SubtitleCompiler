@@ -1,6 +1,8 @@
 #ifndef PARSER_H
 #define PARSER_H
 
+#include"Lexical_analyser.h"
+
 enum State
 {
     START,
@@ -16,6 +18,13 @@ class Parser
 {
 public:
     Parser();
+
+    void DoParse();
+
+private:
+    Lexical_analyser lexical_analyser_;
+    State state_;
+
 };
 
 #endif // PARSER_H
