@@ -23,10 +23,10 @@ private:
 
    std::map<TOKENTYPE ,std::string> representation_=
    {
-       {TYPE_COUNTER, "number"},
-       {TYPE_TIMESTAMP,"timestamp"},
-       {TYPE_TIME_ARROW,"arrow"},
-       {TYPE_TEXT,"sbutitle"}
+       {TYPE_COUNTER, "NUMBER"},
+       {TYPE_TIMESTAMP,"TIMESTAMP"},
+       {TYPE_TIME_ARROW,"ARROW"},
+       {TYPE_TEXT,"SUBTITLE"}
    };
    TOKENTYPE type_;
    std::string  value_;

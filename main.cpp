@@ -20,5 +20,7 @@ int main(int argc, char *argv[])
     cout<<text;
     Lexical_analyser lex_analyser;
     lex_analyser.test(text);
+    //string arrow("-->");
+    //cout<<arrow.find( "-->");
     return 0;
 }

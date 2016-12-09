@@ -4,6 +4,7 @@
 #include<set>
 #include<iostream>
 #include<vector>
+#include<iomanip>
 
 #include<boost/lexical_cast.hpp>
 
@@ -73,6 +74,7 @@ bool Lexical_analyser::ReadChar(char ch)
         {
             char_buffer_+=ch;
             state_=TYPE_TIME_ARROW;
+            //cout<<"Enter arrow model"<<endl;
         }
         else if(  ch == '\n' || !ch) //2
         {
@@ -134,18 +136,20 @@ bool Lexical_analyser::ReadChar(char ch)
     {
         string arrow("-->");
 
-        if (char_buffer_== string("-->") && ( !ch || ch ==' '))//2    a little different
+        if (char_buffer_== "-->")//&& ( ch || ch ==' '))//2    a little different
         {
+            //cout<<"char_buffer == -->"<<endl;
                 if (ch)
                     char_buffer_+=ch;
                 createType=TYPE_TIME_ARROW;
                 state_=TYPE_TEXT;
          }
-        else if ( arrow.find( after_append_ch )  ) //2 a little different
+        else if ( arrow.find( after_append_ch ) !=string::npos  ) //2 a little different
         {
             if (ch)
                 char_buffer_+=ch;
-            state_=TYPE_TEXT;
+            state_=TYPE_TIME_ARROW;
+            //cout<<"Arrow"<<endl;
         }
         else //2
         {
@@ -199,7 +203,7 @@ bool Lexical_analyser::ReadChar(char ch)
                 state_=TYPE_TEXT;
             }
         }
-        else if ( temp_length ==2)//2
+        else if ( temp_length ==9)//2
         {
             if (ch == ',')//3
             {
@@ -214,9 +218,10 @@ bool Lexical_analyser::ReadChar(char ch)
                 state_=TYPE_TEXT;
             }
         }
-        else //line 173 //2
+        else //length over 12
         {
-            if (ch && ch != ' ')// a little different line 173
+            //cout<<"ch"<<ch<<endl;
+            if (ch && ch == ' ')// a little different line 173
             {
                 createType=TYPE_TIMESTAMP;
                 state_=TYPE_TEXT;
@@ -240,12 +245,16 @@ bool Lexical_analyser::ReadChar(char ch)
             string::size_type pos_hour,pos_minute,length;
             length=char_buffer_.length();
             pos_hour= char_buffer_.find_first_of(":");
-            cout<<"pos_hour "<<pos_hour<<endl;
-            string hour=char_buffer_.substr(0,pos_hour-1);
             pos_minute=char_buffer_.find_first_of(":",pos_hour+1);
-            cout<<"pos_minute"<<pos_minute<<endl;
-            string minute=char_buffer_.substr(pos_hour+1,pos_minute-1);
+
+           // cout<<"pos_hour "<<pos_hour<<endl;
+            //cout<<"pos_minute"<<pos_minute<<endl;
+            string hour=char_buffer_.substr(0,pos_hour-1);
+            string minute=char_buffer_.substr(pos_hour+1,
+                                              pos_minute-pos_hour-1);
             string second=char_buffer_.substr(pos_minute+1);
+
+
 
 
             /*bug
@@ -255,10 +264,10 @@ bool Lexical_analyser::ReadChar(char ch)
             **/
 
             // change to int
-            cout<<char_buffer_<<endl;
-            cout<<"hour"<<hour<<endl;
+            //cout<<char_buffer_<<endl;
+            //cout<<"hour"<<hour<<endl;
             int hour_int=boost::lexical_cast<int>(hour);
-            cout<<"minute"<<minute<<endl;
+            //cout<<"minute"<<minute<<endl;
             int minute_int=boost::lexical_cast<int>(minute);
             int second_int=boost::lexical_cast<int> (second.substr(0,1));
 
@@ -278,13 +287,14 @@ bool Lexical_analyser::ReadChar(char ch)
             {
                 /*empty**/
             }
+            //cout<<"char_buffer"<<char_buffer_<<endl;
             int length=char_buffer_.length();
-            char_buffer_=char_buffer_.substr(index, length-1);
+            char_buffer_=char_buffer_.substr(index);
         }
 
         tokens_.push_back( Token(createType, char_buffer_));
-        cout<<"tokens.push_back: "<<tokens_.back().type()<<
-              tokens_.back().value()<<endl;
+        //cout<<"tokens.push_back: "<<tokens_.back().type()<<
+             // tokens_.back().value()<<endl;
         char_buffer_="";
     }
 
@@ -300,7 +310,7 @@ void Lexical_analyser::test(string text)
 
     while( i < text.length() )
     {
-        cout<<"reading char"<<ch<<endl;
+      //  cout<<"reading char"<<ch<<endl;
         if( ReadChar(ch) )
         {
             //cout<<"ReadChar("<<ch<<")"<<" successful"<<endl;
@@ -314,9 +324,10 @@ void Lexical_analyser::test(string text)
 
     vector<Token>::iterator begin=tokens_.begin();
     vector<Token>::iterator end=tokens_.end();
+
     while( begin != end)
     {
-        cout<<"Tokens Type"<<(*begin).type()<<(*begin).value()<<endl;
+        cout<<(*begin).type()<<(*begin).value()<<endl;
         ++begin;
     }
 }
