@@ -12,16 +12,17 @@ class Lexical_analyser
 public:
     Lexical_analyser();
 
-    void ReadChar();
+    bool ReadChar(char ch);
+
+    void test(std::string text);
 
 private:
 
-    std::vector<Token<int> > tokens_number_;
-    std::vector<Token<std::string> > tokens_timestamp_;
-    std::vector< Token<std::string> > tokens_test_;
+    std::vector<Token> tokens_;
 
     TOKENTYPE  state_=TYPE_TEXT;
     std::string char_buffer_="";
+
 
 
 

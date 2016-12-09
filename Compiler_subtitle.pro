@@ -5,7 +5,8 @@ CONFIG -= qt
 
 SOURCES += main.cpp \
     Subtitle.cpp \
-    Lexical_analyser.cpp
+    Lexical_analyser.cpp \
+    Token.cpp
 
 HEADERS += \
     Subtitle.h \
