@@ -1,6 +1,7 @@
 
 #include<vector>
 #include<string>
+#include<iostream>
 
 #include<boost/lexical_cast.hpp>
 
@@ -9,6 +10,7 @@
 #include"Subtitle.h"
 
 using std::vector; using std::string;
+using std::cout; using std::endl;
 
 Parser::Parser()
 {
@@ -16,7 +18,7 @@ Parser::Parser()
 }
 
 
-void Parser::DoParse(string content)
+void Parser::DoParse(const  string  &content)
 {
     vector<Subtitle> subtitles;
     int number=0;
@@ -25,10 +27,11 @@ void Parser::DoParse(string content)
     int i=0;
     char ch=content[i];
     int token_count=0;
+    std::string text="";
 
     while( i != content.length() ) //1
     {
-        bool move_cursor=lexical_analyser_.ReadChr(ch);
+        bool move_cursor=lexical_analyser_.ReadChar(ch);
         int tokens_length=lexical_analyser_.GetTokensLength();
         if( tokens_length > token_count) //2
         {
@@ -42,8 +45,8 @@ void Parser::DoParse(string content)
                     cout<<"Expect type counter"<<endl;
                     return ;
                 }
-                cout<<"COUNTER",new_token.value()<<endl;
-                number=boost::lexical_cast<int>( new_token.value() )<<endl;
+                cout<<"COUNTER"<<new_token.value()<<endl;
+                number=boost::lexical_cast<int>( new_token.value() );
                 state_=COUNTER;
             }
 
@@ -64,7 +67,7 @@ void Parser::DoParse(string content)
                 if ( new_token.type() != TYPE_TIME_ARROW) //4
                 {
                     cout<<"ERROR, EXPECT ARROW"<<endl;
-                    return
+                    return ;
                 }
                cout<<new_token.value();
                state_=ARROW;
@@ -84,11 +87,11 @@ void Parser::DoParse(string content)
 
             else if( state_ == END_TIME || state_==TEXT)  //3
             {
-                if (new_token.value() != "\n") \\4
+                if (new_token.value() != "\n") //4
                 {
                     state_=TEXT;
                     cout<<"Text :"<<new_token.value()<<endl;
-                    if ( ! (new_token.value().back() == '\n') ) \\5
+                    if ( ! (new_token.value().back() == '\n') ) //5
                     {
                         string temp=new_token.value();
                         temp+="\n";
@@ -96,7 +99,7 @@ void Parser::DoParse(string content)
                     }
                     text+=new_token.value();
                 }
-                else \\4
+                else //4
                 {
                     state_==START;
                     cout<<"----------------A SUBTITLE-------"<<endl;
@@ -125,7 +128,18 @@ void Parser::DoParse(string content)
     }
 
 
-    //cout<<"Tokens:"<<endl;
+    cout<<"Tokens"<<endl;
+    for (auto token : lexical_analyser_.GetTokens() )
+    {
+        cout<<token.PresentType()<<", "<<token.value()<<", ";
+    }
+    cout<<endl;
 
-  // here
+
+}
+
+
+void Parser::test( string &text)
+{
+    DoParse(text);
 }

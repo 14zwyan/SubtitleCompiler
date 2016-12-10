@@ -34,7 +34,8 @@ public:
     Token (TOKENTYPE tp, std::string  val) : type_(tp), value_(val)  {  /*empty**/}
     void Display();
 
-    std::string type()  {  return representation_[type_]; };
+    TYPE type()  {  return type_; };
+    std::string PresentType()  { return representation_[type_]; }
     std::string value() { return value_;}
 
     void set_value(std::string value)  { value_=value; }

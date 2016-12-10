@@ -10,7 +10,7 @@ public:
     void set_minute(int minute)  { minute_=minute; }
     void set_second(int  second)  { second_=second; }
     void set_time(std::string time);
-    void clear()   { hour_=minute_=second_=msecond_=-1; time=""; }
+    void clear()   { hour_=minute_=second_=msecond_=-1; time_=""; }
 private:
     int  hour_;
     int  minute_;

@@ -19,7 +19,9 @@ class Parser
 public:
     Parser();
 
-    void DoParse();
+    void DoParse(const std::string &content);
+
+    void test(  std::string &text);
 
 private:
     Lexical_analyser lexical_analyser_;

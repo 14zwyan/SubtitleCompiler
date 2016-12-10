@@ -4,6 +4,7 @@
 
 
 #include"Lexical_analyser.h"
+#include"Parser.h"
 
 using namespace std;
 
@@ -18,9 +19,11 @@ int main(int argc, char *argv[])
     }
 
     cout<<text;
-    Lexical_analyser lex_analyser;
-    lex_analyser.test(text);
-    //string arrow("-->");
-    //cout<<arrow.find( "-->");
+    //Lexical_analyser lex_analyser;
+    //lex_analyser.test(text);
+    Parser parser;
+    parser.test(text);
+
+
     return 0;
 }

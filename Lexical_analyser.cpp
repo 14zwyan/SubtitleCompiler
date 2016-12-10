@@ -136,10 +136,10 @@ bool Lexical_analyser::ReadChar(char ch)
     {
         string arrow("-->");
 
-        if (char_buffer_== "-->")//&& ( ch || ch ==' '))//2    a little different
+        if (char_buffer_== "-->" && ( !ch || ch=='\n' || ch==' '))//&& ( ch || ch ==' '))//2    a little different
         {
             //cout<<"char_buffer == -->"<<endl;
-                if (ch)
+                if (ch )  // different here 14:51
                     char_buffer_+=ch;
                 createType=TYPE_TIME_ARROW;
                 state_=TYPE_TEXT;
@@ -221,7 +221,7 @@ bool Lexical_analyser::ReadChar(char ch)
         else //length over 12
         {
             //cout<<"ch"<<ch<<endl;
-            if (ch && ch == ' ')// a little different line 173
+            if (ch &&( ch == ' ' || ch=='\n') )// a little different line 173
             {
                 createType=TYPE_TIMESTAMP;
                 state_=TYPE_TEXT;
@@ -310,7 +310,7 @@ void Lexical_analyser::test(string text)
 
     while( i < text.length() )
     {
-      //  cout<<"reading char"<<ch<<endl;
+        //cout<<"reading char"<<ch<<endl;
         if( ReadChar(ch) )
         {
             //cout<<"ReadChar("<<ch<<")"<<" successful"<<endl;
@@ -325,9 +325,13 @@ void Lexical_analyser::test(string text)
     vector<Token>::iterator begin=tokens_.begin();
     vector<Token>::iterator end=tokens_.end();
 
+    cout<<"[";
     while( begin != end)
     {
-        cout<<(*begin).type()<<(*begin).value()<<endl;
+        cout<<"\""<<(*begin).PresentType()<<"\""<<", "<<"\""<<(*begin).value()<<"\""<<endl;
         ++begin;
     }
+    cout<<"]"<<endl;
+    cout<<"Parse end"<<endl;
+    cout<<tokens_.size()<<endl;
 }
